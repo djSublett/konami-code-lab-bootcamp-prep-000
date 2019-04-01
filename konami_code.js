@@ -1,20 +1,32 @@
-init();
+  function triggerKeyDown(key) {
+    const keyboardEvent = new KeyboardEvent("keydown", { key });
+    document.body.dispatchEvent(keyboardEvent);
+  }
+  
+  init()
 
-    function init() {
+  describe("Konami code", () => {
+    
+    const spy = sinon.stub(window, "alert");
+    
+    it("triggers an alert if the right code is entered", () => {
+      
+      for (let i = 0, l = codes.length; i < l; i++) {
+        triggerKeyDown(codes[i]);
+      }
+      expect(spy.called).to.equal(true)
+      expect(spy.callCount).to.equal(1)
+    });
 
-        var index = 0;
-        const getElement = document.querySelector('body');
+    it("does not trigger an alert if the wrong code is entered", () => {
+      spy.reset()
 
-        getElement.addEventListener('keydown', function(e) {
-            if (code[index] === e.which || code[index] === e.detail) {
-                index++;
-
-                if (index === code.length) {
-                    alert("CHEAT EXECUTED!!");
-                    index = 0;
-                }
-            } else {
-                index = 0;
-            }
-        })
-    }
+      for (let i = 0; i < codes.length - 1; i++) {
+        triggerKeyDown(codes[i])
+      }
+      triggerKeyDown("ArrowUp")
+      
+      expect(spy.notCalled).to.equal(true);
+    });
+  });
+});
