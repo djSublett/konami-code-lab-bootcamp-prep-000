@@ -12,7 +12,7 @@ const codes = [
 ];
 
 let index = 0;
-
+function init() {
 document.body.addEventListener("keydown", (thingPressed) => {
   const key = thingPressed.key 
   console.log(key) 
@@ -31,3 +31,4 @@ document.body.addEventListener("keydown", (thingPressed) => {
     index = 0 
   }
 }); 
+}
